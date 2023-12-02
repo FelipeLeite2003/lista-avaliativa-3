@@ -1,0 +1,103 @@
+#include <stdio.h>
+#include <string.h>
+
+int converterRomanoParaDecimalNovo(char numeralRomano[]) {
+    int valoresDecimais[strlen(numeralRomano)];
+    int somaValores = 0;
+
+    for (int i = 0; i < strlen(numeralRomano); i++) {
+        int valorAtual = 0; 
+
+        if (numeralRomano[i] == 'I') {
+            valorAtual = 1;
+        } else if (numeralRomano[i] == 'V') {
+            valorAtual = 5;
+        } else if (numeralRomano[i] == 'X') {
+            valorAtual = 10;
+        } else if (numeralRomano[i] == 'L') {
+            valorAtual = 50;
+        } else if (numeralRomano[i] == 'C') {
+            valorAtual = 100;
+        } else if (numeralRomano[i] == 'D') {
+            valorAtual = 500;
+        } else if (numeralRomano[i] == 'M') {
+            valorAtual = 1000;
+        } 
+
+        valoresDecimais[i] = valorAtual; 
+    }
+
+    for (int i = 0; i < strlen(numeralRomano); i++) {
+        if (i > 0 && valoresDecimais[i - 1] < valoresDecimais[i]) {
+            somaValores += valoresDecimais[i] - 2 * valoresDecimais[i - 1];
+        } else {
+            somaValores += valoresDecimais[i];
+        }
+    }
+
+    return somaValores;
+}
+
+void converterDecimalParaBinarioNovo(int numeralDecimal) {
+    int representacaoBinaria[32];
+    int indice = 0;
+
+    if (numeralDecimal == 0) {
+        printf("0");
+        return;
+    }
+
+    while (numeralDecimal > 0) {
+        representacaoBinaria[indice++] = numeralDecimal % 2;
+        numeralDecimal = numeralDecimal / 2;
+    }
+
+    for (int i = indice - 1; i >= 0; i--) {
+        printf("%d", representacaoBinaria[i]);
+    }
+
+    printf("\n");
+}
+
+void converterDecimalParaHexadecimalManualNovo(int numeralDecimal) {
+    char representacaoHexadecimal[32];
+    int indice = 0;
+
+    while (numeralDecimal > 0) {
+        int resto = numeralDecimal % 16;
+        if (resto < 10) {
+            representacaoHexadecimal[indice] = resto + '0';
+        } else {
+            representacaoHexadecimal[indice] = resto - 10 + 'a';
+        }
+        numeralDecimal = numeralDecimal / 16;
+        indice++;
+    }
+
+    for (int i = indice - 1; i >= 0; i--) {
+        printf("%c", representacaoHexadecimal[i]);
+    }
+
+    printf("\n");
+}
+
+int main() {
+    char numeralRomano[13];
+    int numeralDecimal;
+
+    scanf("%s", numeralRomano);
+
+    numeralDecimal = converterRomanoParaDecimalNovo(numeralRomano);
+
+    if (numeralDecimal != -1) {
+        printf("%s na base 2: ", numeralRomano);
+        converterDecimalParaBinarioNovo(numeralDecimal);
+
+        printf("%s na base 10: %d\n", numeralRomano, numeralDecimal);
+
+        printf("%s na base 16: ", numeralRomano);
+        converterDecimalParaHexadecimalManualNovo(numeralDecimal);
+    }
+
+    return 0;
+}
