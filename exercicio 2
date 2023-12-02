@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <math.h>
+
+void calcularMontante(int numMeses, double aporteMensal, double taxaJuros) {
+    double montante = 0;
+
+    for (int mes = 1; mes <= numMeses; mes++) {
+        montante = aporteMensal * (1 + taxaJuros) * ((pow(1 + taxaJuros, mes) - 1) / taxaJuros);
+        printf("Montante ao fim do mes %d: R$ %.2lf\n", mes, montante);
+    }
+}
+
+int main() {
+    int numMeses;
+    double aporteMensal, taxaJuros;
+
+    scanf("%d", &numMeses);
+    scanf("%lf", &aporteMensal);
+    scanf("%lf", &taxaJuros);
+
+    calcularMontante(numMeses, aporteMensal, taxaJuros);
+
+    return 0;
+}
